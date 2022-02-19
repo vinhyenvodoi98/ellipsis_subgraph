@@ -1,0 +1,29 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Factory
+    network: bsc
+    source:
+      address: "0xf65BEd27e96a367c61e0E06C54e14B16b84a5870"
+      abi: Factory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - BasePoolAdded
+        - PlainPoolDeployed
+        - MetaPoolDeployed
+      abis:
+        - name: Factory
+          file: ./abis/Factory.json
+      eventHandlers:
+        - event: BasePoolAdded(address)
+          handler: handleBasePoolAdded
+        - event: PlainPoolDeployed(address,address,address[4],uint256,uint256,address)
+          handler: handlePlainPoolDeployed
+        - event: MetaPoolDeployed(address,address,address[2],address,uint256,uint256,address)
+          handler: handleMetaPoolDeployed
+      file: ./src/mapping.ts
